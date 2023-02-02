@@ -45,8 +45,8 @@ function titleClickHandler(event) {
 
 
 const optArticleSelector = '.post',
-const optTitleSelector = '.post-title',
-const optTitleListSelector = '.titles';
+ optTitleSelector = '.post-title',
+ optTitleListSelector = '.titles';
 
 function generateTitleLinks() {
 
@@ -54,9 +54,11 @@ function generateTitleLinks() {
 
     const titleList = document.querySelector(optTitleListSelector);
     console.log('Deleted list: ', titleList);
-    titleListdocument.querySelector(optTitleListSelector).innerHTML = '';
+    titleList.innerHTML = '';
 
     /* for each article */
+
+
 
    /* get the article id */
 
