@@ -67,8 +67,8 @@
 
     const articleId = article.getAttribute('id');
     console.log('articleId: ', articleId);
-    
-    
+
+
     /* [DONE] find the title element */
 
     const articleTitle = article.querySelector(optTitleSelector).textContent;
@@ -96,3 +96,10 @@
 }
 
     generateTitleLinks();
+
+
+
+
+
+
+
