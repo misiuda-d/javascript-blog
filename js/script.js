@@ -48,6 +48,7 @@
     optTitleSelector = '.post-title',
     optTitleListSelector = '.titles',
     optArticleTagsSelector = '.post-tags .list';
+    const optArticleAuthorSelector = '.post-author';
 
     function generateTitleLinks() {
 
@@ -98,12 +99,12 @@
 
     generateTitleLinks();
 
+
     function generateTags(){
 
     /* find all articles */
 
-    const articles = document.querySelectorAll('.post');
-    console.log(articles);
+    const articles = document.querySelectorAll(opts.articleSelector);
 
     /* START LOOP: for every article: */
 
@@ -120,7 +121,6 @@
       /* get tags from data-tags attribute */
 
     const articleTags = article.getAttribute('.post-tags .list');
-    console.log(articleTags);
 
       /* split tags into array */
 
@@ -131,7 +131,6 @@
 
           /* generate HTML of the link */
     const linkHTML = '<li><a href="#tag-' + tag + '">' + tag + '</a></li>';
-    console.log('linkHTML: ', linkHTML);
 
           /* add generated code to html variable */
     html = html + linkHTML + ' ';
@@ -145,7 +144,7 @@
 
     generateTags();
 
-}
+  }
 
 function tagClickHandler(event){
   /* prevent default action for this event */
@@ -188,3 +187,73 @@ function addClickListenersToTags(){
 }
 
 addClickListenersToTags();
+
+function generateAuthors(){
+  /*find all articles */
+  const articles = document.querySelectorAll(optArticleSelector);
+  /* START LOOP: for every article: */
+  for (let article of articles) {
+    /* find author wrapper */
+    const authorWrapper = article.querySelector(optArticleAuthorSelector);
+    /* make html variable with empty string */
+    let html = '';
+    /* get tags from data-author attribute */
+    const articleAuthor = article.getAttribute('data-author');
+    /* generate HTML of the link */
+    const linkHTML ='by <a href="#' + articleAuthor + '">' + articleAuthor.toUpperCase();
+    /* [add generated code to html variable */
+    html = html + linkHTML + ' ';
+    /* insert HTML of all the links into the tags wrapper */
+    authorWrapper.innerHTML = html;
+  /* END LOOP: for every article: */
+  }
+}
+generateAuthors();
+
+function authorClickHandler(event){
+  /* [DONE] prevent default action for this event */
+  event.preventDefault();
+  /* [DONE] make new constant named "clickedElement" and give it the value of "this" */
+  const clickedElement = this;
+  console.log('Author was clicked!');
+  // console.log(event);
+  console.log('clicked: ', clickedElement);
+  /* [DONE] make a new constant "href" and read the attribute "href" of the clicked element */
+  const href = clickedElement.getAttribute('href');
+
+  /* [DONE] make a new constant "tag" and extract tag from the "href" constant */
+  const tag = href.replace('#', '');
+
+  /* [DONE] find all author links with class active */
+  const activeAuthorLinks = document.querySelectorAll('.post-author a.active');
+
+  /* [DONE] START LOOP: for each active tag link */
+  for(let link of activeAuthorLinks) {
+    /* [DONE] remove class active */
+    link.classList.remove('active');
+  /* [DONE] END LOOP: for each active tag link */
+  }
+  /* [DONE] find all tag links with "href" attribute equal to the "href" constant */
+  const targetLinks = document.querySelectorAll('a[href="' + href + '"]');
+  console.log('targetLinks: ', targetLinks);
+  /* [DONE] START LOOP: for each found tag link */
+  for (let link of targetLinks) {
+    /* [DONE] add class active */
+    link.classList.add('active');
+  /* [DONE] END LOOP: for each found tag link */
+  }
+  /* [DONE] execute function "generateTitleLinks" with article selector as argument */
+  generateTitleLinks('[data-author="' + tag + '"]');
+}
+
+function addClickListenersToAuthors(){
+  /* [DONE] find all links to authors */
+  const authorLinks = document.querySelectorAll('.post-author a');
+  /* [DONE] START LOOP: for each link */
+  for(let link of authorLinks){
+    /* [DONE] add tagClickHandler as event listener for that link */
+    link.addEventListener('click', authorClickHandler);
+  /* [DONE] END LOOP: for each link */
+  }
+}
+addClickListenersToAuthors();
