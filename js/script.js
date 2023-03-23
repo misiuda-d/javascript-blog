@@ -44,13 +44,19 @@
     targetArticle.classList.add('active');
 
 }
-    const optArticleSelector = '.post',
-    optTitleSelector = '.post-title',
-    optTitleListSelector = '.titles',
-    optArticleTagsSelector = '.post-tags .list';
+    const optArticleSelector = '.post';
+    const optTitleSelector = '.post-title';
+    const optTitleListSelector = '.titles';
+    const optArticleTagsSelector = '.post-tags .list';
     const optArticleAuthorSelector = '.post-author';
+    const optTagsListSelector = '.tags .list';
 
-    function generateTitleLinks() {
+    const opts = {
+      articleSelector: '.post',
+      titleSelector: '.post-title'
+    };
+
+    function generateTitleLinks(customSelector = '') {
 
     /* [DONE] remove contents of titleList */
 
@@ -102,9 +108,12 @@
 
     function generateTags(){
 
+      /* [NEW] create a new variable allTags with an empty object */
+   let allTags = {};
+
     /* find all articles */
 
-    const articles = document.querySelectorAll(opts.articleSelector);
+    const articles = document.querySelectorAll(optArticleSelector);
 
     /* START LOOP: for every article: */
 
@@ -120,7 +129,7 @@
 
       /* get tags from data-tags attribute */
 
-    const articleTags = article.getAttribute('.post-tags .list');
+    const articleTags = article.getAttribute('data-tags');
 
       /* split tags into array */
 
@@ -134,6 +143,15 @@
 
           /* add generated code to html variable */
     html = html + linkHTML + ' ';
+
+    /* [NEW] check if this link is NOT already in allTags */
+    if(!allTags.hasOwnProperty(tag)){
+      /* [NEW] add generated code to allTags array */
+      allTags[tag]=1;
+    } else {
+      allTags[tag]++;
+
+    }
         /* END LOOP: for each tag */
     }
         /* insert HTML of all the links into the tags wrapper */
@@ -142,9 +160,11 @@
       /* END LOOP: for every article: */
     }
 
+    /* [NEW] find list of tags in right column */
+  const tagList = document.querySelector(optTagsListSelector);
+  }
     generateTags();
 
-  }
 
 function tagClickHandler(event){
   /* prevent default action for this event */
