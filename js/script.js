@@ -301,7 +301,7 @@ function generateAuthors() {
       count: allAuthors[author],
     });
   }
-
+ authorsList.innerHTML = templates.authorListLink(allAuthorsData);
 }
 generateAuthors();
 
